@@ -1,5 +1,5 @@
 use anyhow::{anyhow, Context, Result};
-use image::GenericImageView;
+use image::{imageops::FilterType, GenericImageView};
 use std::{
     cmp::{max, min},
     env::args_os,
@@ -19,7 +19,7 @@ fn main() -> Result<()> {
         .ok_or_else(|| anyhow!("Output thumbnail path was not provided"))?
         .into();
 
-    let thumbnail_size: usize = args
+    let thumbnail_size: u32 = args
         .next()
         .ok_or_else(|| anyhow!("Thumbnail size was not provided"))?
         .to_str()
@@ -38,6 +38,17 @@ fn main() -> Result<()> {
         size,
         size,
     );
+
+    let output_image = image.resize_exact(thumbnail_size, thumbnail_size, FilterType::Lanczos3);
+
+    image::save_buffer(
+        output_path,
+        output_image.as_bytes(),
+        thumbnail_size,
+        thumbnail_size,
+        output_image.color(),
+    )
+    .context("Failed to save thumbnail image")?;
 
     Ok(())
 }
