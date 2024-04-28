@@ -39,7 +39,7 @@ fn main() -> Result<()> {
 
     let output_image = image.resize_exact(thumbnail_size, thumbnail_size, FilterType::Lanczos3);
 
-    create_dir_all(&output_path).context("Failed to create directory for output image")?;
+    create_dir_all(&output_path).context("Failed to create directory for thumbnail")?;
 
     image::save_buffer(
         output_path,
@@ -48,7 +48,7 @@ fn main() -> Result<()> {
         thumbnail_size,
         output_image.color(),
     )
-    .context("Failed to save thumbnail image")?;
+    .context("Failed to save thumbnail")?;
 
     Ok(())
 }
