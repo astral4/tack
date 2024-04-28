@@ -3,21 +3,18 @@ use image::{imageops::FilterType, GenericImageView};
 use std::{
     cmp::{max, min},
     env::args_os,
-    path::PathBuf,
 };
 
 fn main() -> Result<()> {
     let mut args = args_os();
 
-    let input_path: PathBuf = args
+    let input_path = args
         .next()
-        .ok_or_else(|| anyhow!("Input image path was not provided"))?
-        .into();
+        .ok_or_else(|| anyhow!("Input image path was not provided"))?;
 
-    let output_path: PathBuf = args
+    let output_path = args
         .next()
-        .ok_or_else(|| anyhow!("Output thumbnail path was not provided"))?
-        .into();
+        .ok_or_else(|| anyhow!("Output thumbnail path was not provided"))?;
 
     let thumbnail_size: u32 = args
         .next()
