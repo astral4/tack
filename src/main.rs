@@ -3,6 +3,7 @@ use image::{imageops::FilterType, GenericImageView};
 use std::{
     cmp::{max, min},
     env::args_os,
+    fs::create_dir_all,
 };
 
 fn main() -> Result<()> {
@@ -37,6 +38,8 @@ fn main() -> Result<()> {
     );
 
     let output_image = image.resize_exact(thumbnail_size, thumbnail_size, FilterType::Lanczos3);
+
+    create_dir_all(&output_path).context("Failed to create directory for output image")?;
 
     image::save_buffer(
         output_path,
