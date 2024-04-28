@@ -4,6 +4,7 @@ use std::{
     cmp::{max, min},
     env::args_os,
     fs::create_dir_all,
+    path::PathBuf,
 };
 
 fn main() -> Result<()> {
@@ -13,9 +14,10 @@ fn main() -> Result<()> {
         .next()
         .ok_or_else(|| anyhow!("Input image path was not provided"))?;
 
-    let output_path = args
+    let output_path: PathBuf = args
         .next()
-        .ok_or_else(|| anyhow!("Output thumbnail path was not provided"))?;
+        .ok_or_else(|| anyhow!("Output thumbnail path was not provided"))?
+        .into();
 
     let thumbnail_size: u32 = args
         .next()
@@ -39,7 +41,9 @@ fn main() -> Result<()> {
 
     let output_image = image.resize_exact(thumbnail_size, thumbnail_size, FilterType::Lanczos3);
 
-    create_dir_all(&output_path).context("Failed to create directory for thumbnail")?;
+    if let Some(output_dir) = output_path.parent() {
+        create_dir_all(output_dir).context("Failed to create directory for thumbnail")?;
+    }
 
     image::save_buffer(
         output_path,
