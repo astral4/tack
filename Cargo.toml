@@ -9,6 +9,7 @@ repository = "https://github.com/astral4/tack"
 license = "MIT"
 
 [dependencies]
+anyhow = "1.0.82"
 
 [lints.rust]
 future_incompatible = "warn"
