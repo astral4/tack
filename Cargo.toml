@@ -10,6 +10,7 @@ license = "MIT"
 
 [dependencies]
 anyhow = "1.0.82"
+image = "0.25.1"
 
 [lints.rust]
 future_incompatible = "warn"
