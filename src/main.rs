@@ -6,7 +6,7 @@ use std::{
 };
 
 fn main() -> Result<()> {
-    let mut args = args_os();
+    let mut args = args_os().skip(1);
 
     let input_path = args
         .next()
